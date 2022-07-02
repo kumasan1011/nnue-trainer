@@ -6,3 +6,4 @@ logs/
 *.d
 *.so
 *swp
+*.bin
