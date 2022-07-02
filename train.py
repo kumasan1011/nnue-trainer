@@ -108,12 +108,12 @@ def train_step(nnue, sample, optimizer, lambda_, epoch, idx, num_batches):
   
   
 def create_data_loaders(train_filename, val_filename, epoch_size, val_size,
-                        batch_size, use_factorizer, main_device):
+                        batch_size, main_device):
     train_dataset = nnue_dataset.SparseBatchDataset(train_filename, epoch_size,
-            batch_size, use_factorizer,
+            batch_size, 
             (epoch_size + batch_size - 1) // batch_size, device=main_device)
     val_dataset = nnue_dataset.SparseBatchDataset(val_filename, val_size,
-            batch_size, use_factorizer,
+            batch_size, 
             (val_size + batch_size - 1) // batch_size, device=main_device)
 
     train = DataLoader(train_dataset, batch_size=None, batch_sampler=None)
@@ -138,7 +138,6 @@ def main(args):
     print(f'Training set: {args.train}')
     print(f'Validation set: {args.val}')
     print(f'Batch size: {args.batch_size}')
-    print(f'Using factorizer: {args.use_factorizer}')
     print(f'Lambda: {args.lambda_}')
     print(f'Validation check interval: {args.val_check_interval}')
     print(f'Logs written to: {log_path}')
@@ -149,10 +148,10 @@ def main(args):
     writer = SummaryWriter(log_path)
 
     # Create data loaders
-    train_data_loader, val_data_loader = create_data_loaders(args.train, args.val, args.train_size, args.val_size, args.batch_size, args.use_factorizer, main_device)
+    train_data_loader, val_data_loader = create_data_loaders(args.train, args.val, args.train_size, args.val_size, args.batch_size, main_device)
 
     # Create model
-    nnue = M.NNUE(args.use_factorizer, feature_set=halfkp.Features()).to(main_device)
+    nnue = M.NNUE(feature_set=halfkp.Features()).to(main_device)
 
     # Configure optimizer
     optimizer = ranger.Ranger(nnue.parameters(), lr=1e-3)

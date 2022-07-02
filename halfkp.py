@@ -8,18 +8,6 @@ class Features:
     name = 'HalfKP'
 
 
-    def get_num_inputs(self, use_factorizer):
-        if use_factorizer:
-            ninputs = NUM_REAL_FEATURES + NUM_VIRTUAL_FEATURES
-        else:
-            ninputs = NUM_REAL_FEATURES
+    def get_num_inputs(self):
+        ninputs = NUM_REAL_FEATURES
         return ninputs
-
-
-    def get_virtual_features_indices(self):
-        return NUM_REAL_FEATURES, NUM_REAL_FEATURES + NUM_VIRTUAL_FEATURES
-
-
-    def real_to_virtual_feature(self, real_idx):
-        piece_idx = real_idx%NUM_PLANES
-        return NUM_REAL_FEATURES + piece_idx

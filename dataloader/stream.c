@@ -101,8 +101,7 @@ static int read_samples(struct stream *stream, struct sfen *buffer, int to_read)
     return count;
 }
 
-struct stream* stream_create(char *filename, uint64_t nsamples, int batch_size,
-                             bool use_factorizer)
+struct stream* stream_create(char *filename, uint64_t nsamples, int batch_size)
 {
     struct stream *stream;
 
@@ -114,7 +113,6 @@ struct stream* stream_create(char *filename, uint64_t nsamples, int batch_size,
     stream->fp = fopen(filename, "rb");
     stream->iter = 0ULL;
     stream->batch_size = batch_size;
-    stream->use_factorizer = use_factorizer;
     stream->nsamples = nsamples;
     stream->nread = 0ULL;
     mutex_init(&stream->stream_lock);
